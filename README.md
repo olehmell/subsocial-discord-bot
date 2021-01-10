@@ -4,7 +4,7 @@ Work-in-progress.
 
 ## Credits
 
-Stared as a fork of [Synesthesia Discord Bot](https://github.com/synesthesia-network/lexis).
+Started as a fork of [Synesthesia Discord Bot](https://github.com/synesthesia-network/lexis).
 
 ## License
 
