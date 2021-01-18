@@ -5,7 +5,13 @@ const Discord = require('discord.js');
 const { prefix, defaultCooldown } = require('../config.js');
 const { connect, enableSudo } = require(`${__dirname}/connect.js`);
 
-global.client = new Discord.Client();
+const { createCheckMember } = require('./utils/validation')
+
+const client = new Discord.Client()
+global.client = client
+// const server = client.guilds.cache.get(800726490383384608)
+// const myUser = server.members.cache.find(693129095818510356)
+
 client.commands = new Discord.Collection();
 const cooldowns = new Discord.Collection();
 
@@ -66,7 +72,9 @@ client.on('message', message => {
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 	try {
-		command.execute(message, args);
+		if (checkMember(message)) {
+			command.execute(message, args)
+		}
 	} catch (error) {
 		console.error(error);
 		message.reply('there was an error trying to execute that command!');
@@ -79,7 +87,9 @@ async function main() {
 	// Set up the sudo account
 	global.sudoPair = enableSudo();
 	// Login to discord
-	client.login(process.env.DISCORD_TOKEN);
+	await client.login(process.env.DISCORD_TOKEN);
+
+	global.checkMember = createCheckMember(process.env.CHECK_GUILD_ID)
 }
 
 main();
